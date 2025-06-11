@@ -1,0 +1,16 @@
+:root {
+    --container-width: 1600px;
+    --container-padding-x: 24px;
+    --container-padding-mobile-x: 16px;
+
+    --font-family: 'Montserrat', sans-serif;
+
+    --color-white: #F3F3F3;
+    --color-black: #0D0D0D;
+    --color-grey-1: #1F1F1F;
+    --color-grey-2: #121212;
+    --color-blue: #79BBCD;
+
+
+    --transition-duration: 0.2s;
+}

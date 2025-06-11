@@ -1,0 +1,25 @@
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+    transition-duration: var(--transition-duration);
+}
+
+body {
+    font-family: var(--font-family);
+}
+
+.container {
+    max-width: var(--container-width);
+    padding: 0 var(--container-padding-x);
+    margin: 0 auto;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 0 var(--container-padding-mobile-x);
+    }
+}
