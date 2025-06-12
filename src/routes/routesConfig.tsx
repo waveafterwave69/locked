@@ -1,8 +1,8 @@
-import HomePage from '../pages/HomePage/HomePage'
+import MainPage from '../pages/MainPage/MainPage'
 
 export const routesConfig = [
     {
-        page: <HomePage />,
+        page: <MainPage />,
         url: '/',
     },
 ]

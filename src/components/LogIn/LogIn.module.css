@@ -1,0 +1,130 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login__logo {
+    margin-top: 34px;
+    margin-bottom: 120px;
+}
+
+.login__title {
+    font-weight: 600;
+    font-size: 40px;
+    color: var(--color-white);
+    margin-bottom: 25px;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+}
+
+.form__input {
+    padding: 15px 20px;
+    border: 1px solid var(--color-blue);
+    border-radius: 5px;
+    width: 480px;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--color-white);
+}
+
+.form__input::placeholder {
+    color: #f3f3f391;
+}
+
+.input__error {
+    color: rgb(255, 57, 57);
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: -5px;
+}
+
+.form__btn {
+    background: linear-gradient(50deg, #4065aa 0%, #86b0d8 100%);
+    color: var(--color-grey-2);
+    font-weight: 700;
+    font-size: 21px;
+    border-radius: 5px;
+    padding: 13px;
+    margin-top: 5px;
+}
+
+.form__btn:disabled {
+    cursor: auto;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .login__logo {
+        width: 150px;
+        margin-top: 25px;
+        margin-bottom: 80px;
+    }
+
+    .login__title {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .login__form {
+        row-gap: 10px;
+    }
+
+    .form__input {
+        padding: 13px 18px;
+        width: 380px;
+        font-size: 16px;
+    }
+
+
+    .input__error {
+        font-weight: 300;
+        font-size: 14px;
+    }
+
+    .form__btn {
+        font-size: 18px;
+        padding: 12px;
+        margin-top: 5px;
+    }
+
+}
+
+@media (max-width: 425px) {
+    .login__logo {
+        width: 120px;
+        margin-top: 25px;
+        margin-bottom: 75px;
+    }
+
+    .login__title {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .login__form {
+        row-gap: 10px;
+    }
+
+    .form__input {
+        padding: 11px 18px;
+        width: 310px;
+        font-size: 16px;
+    }
+
+    .input__error {
+        font-weight: 300;
+        font-size: 14px;
+    }
+
+    .form__btn {
+        font-size: 17px;
+        padding: 11px;
+        margin-top: 5px;
+    }
+
+}
