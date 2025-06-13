@@ -3,18 +3,23 @@ import styles from './LogIn.module.css'
 import { type Form } from '../../types/index.ts'
 import { useEffect } from 'react'
 import logo from '../../img/logo2.svg'
+import { useNavigate } from 'react-router-dom'
 
 const LogIn: React.FC = () => {
     const { register, handleSubmit, formState, reset } = useForm<Form>()
 
-    const nameError: string | undefined = formState.errors['name']?.message
-    const roomError: string | undefined = formState.errors['room']?.message
+    const navigate = useNavigate()
+
+    const nameError: string | undefined = formState.errors.name?.message
+    const roomError: string | undefined = formState.errors.room?.message
 
     const isDisabled: boolean = !!nameError || !!roomError
 
     const onSubmit: SubmitHandler<Form> = (data) => {
-        console.log(data)
-        if (!nameError && !roomError) reset()
+        if (!nameError && !roomError) {
+            reset()
+            navigate(`/chat?name=${data.name}&room=${data.room}`)
+        }
     }
 
     useEffect(() => {
@@ -53,7 +58,6 @@ const LogIn: React.FC = () => {
                     />
                     <button
                         className={styles.form__btn}
-                        onClick={() => console.log(Boolean(roomError))}
                         type="submit"
                         disabled={isDisabled}
                     >
