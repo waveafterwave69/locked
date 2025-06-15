@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './Chat.module.css'
 import { io } from 'socket.io-client'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import type { Message } from '../../types'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import Messages from '../Messages/Messages'
@@ -20,6 +20,7 @@ interface MessageFromServer {
 }
 
 const Chat: React.FC = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, reset } = useForm<Message>()
     const { search } = useLocation()
     const [params, setParams] = useState<{
@@ -28,26 +29,28 @@ const Chat: React.FC = () => {
         name?: string
     }>({})
     const [messages, setMessages] = useState<MessageFromServer['data'][]>([])
-    const [userCount, setUserCount] = useState<number>(0)
     const inputRef = useRef<HTMLInputElement>(null)
+    const [users, setUsers] = useState<number>(0)
+    const messagesEndRef = useRef<HTMLDivElement>(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
 
     useEffect(() => {
         const searchParams = Object.fromEntries(new URLSearchParams(search))
         setParams(searchParams)
         socket.emit('join', searchParams)
 
-        socket.on('userCount', (count: number) => {
-            setUserCount(count)
-        })
-
         return () => {
-            socket.off('userCount')
+            socket.off('joinRoom')
         }
     }, [search])
 
     useEffect(() => {
         const handleMessage = ({ data }: MessageFromServer) => {
             setMessages((prevMessages) => [...prevMessages, data])
+            scrollToBottom()
         }
         socket.on('message', handleMessage)
 
@@ -55,6 +58,22 @@ const Chat: React.FC = () => {
             socket.off('message', handleMessage)
         }
     }, [])
+
+    useEffect(() => {
+        const handleJoinRoom = ({ data }: { data: { users: any[] } }) => {
+            setUsers(data.users.length)
+        }
+
+        socket.on('joinRoom', handleJoinRoom)
+
+        return () => {
+            socket.off('joinRoom', handleJoinRoom)
+        }
+    }, [])
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages])
 
     const onSubmit: SubmitHandler<Message> = (data) => {
         if (!data.message) return
@@ -64,6 +83,12 @@ const Chat: React.FC = () => {
         if (inputRef.current) {
             inputRef.current.focus()
         }
+        scrollToBottom()
+    }
+
+    const leftRoom = () => {
+        socket.emit('leftRoom', { params })
+        navigate('/')
     }
 
     return (
@@ -75,16 +100,18 @@ const Chat: React.FC = () => {
                         {params.room || 'ROOM'}
                     </h2>
                     <p className={styles.header__users}>
-                        {`${userCount} user${
-                            userCount === 1 ? '' : 's'
-                        } in this room`}
+                        {`${users} user${users > 1 ? 's' : ''} in room`}
                     </p>
-                    <Link to="/" className={styles.leave__btn}>
+                    <button onClick={leftRoom} className={styles.leave__btn}>
                         Leave
-                    </Link>
+                    </button>
                 </header>
-                <main className={styles.chat__main}>
+                <main
+                    className={styles.chat__main}
+                    style={{ overflowY: 'auto' }}
+                >
                     <Messages messages={messages} name={params.name} />
+                    <div ref={messagesEndRef} />{' '}
                 </main>
                 <form
                     onSubmit={handleSubmit(onSubmit)}

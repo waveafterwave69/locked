@@ -37,6 +37,8 @@
 .chat__main {
     background-color: var(--color-black);
     height: 720px;
+    overflow-y: auto;
+    padding-bottom: 20px;
 }
 
 .chat__footer {
@@ -175,7 +177,7 @@
     }
 
     .footer__input {
-        padding: 18px 15px;
+        padding: 13px 15px;
         font-size: 16px;
     }
 

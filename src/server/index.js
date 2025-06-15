@@ -3,7 +3,7 @@ import * as http from 'http'
 import { Server } from 'socket.io'
 import cors from 'cors'
 import router from './route.js'
-import { addUser, findUser } from './users.js'
+import { addUser, findUser, getRoomUsers, removeUser } from './users.js'
 
 const app = express()
 const port = 5000
@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         socket.emit('message', {
             data: {
                 user: { name: 'System' },
-                message: `welcome to the chat, ${user.name}`,
+                message: `Welcome to the chat, ${user.name}`,
             },
         })
 
@@ -40,18 +40,59 @@ io.on('connection', (socket) => {
                 message: `${user.name} joined the chat`,
             },
         })
+
+        io.to(user.room).emit('joinRoom', {
+            data: { users: getRoomUsers(user.room) },
+        })
     })
 
     socket.on('sendMessage', ({ message, params }) => {
         const user = findUser(params)
 
         if (user) {
-            io.to(user.room).emit('message', { data: { user, message } })
+            const { room, name } = user
+
+            io.to(room).emit('message', {
+                data: { user: { name: name }, message: message },
+            })
         }
     })
 
-    io.on('disconnect', () => {
-        console.log('Disconnect')
+    socket.on('leftRoom', ({ params }) => {
+        const user = findUser(params)
+
+        if (user) {
+            removeUser(user)
+
+            io.to(user.room).emit('message', {
+                data: {
+                    user: { name: 'System' },
+                    message: `${user.name} has left the room`,
+                },
+            })
+            io.to(user.room).emit('joinRoom', {
+                data: { users: getRoomUsers(user.room) },
+            })
+        }
+    })
+
+    socket.on('disconnect', () => {
+        const user = findUser({ name: socket.id })
+
+        if (user) {
+            removeUser(user)
+            io.to(user.room).emit('message', {
+                data: {
+                    user: { name: 'System' },
+                    message: `${user.name} has left the room`,
+                },
+            })
+            io.to(user.room).emit('joinRoom', {
+                data: { users: getRoomUsers(user.room) },
+            })
+        }
+
+        console.log('User Disconnected')
     })
 })
 
