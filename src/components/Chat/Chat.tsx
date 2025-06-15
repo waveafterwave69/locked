@@ -6,7 +6,7 @@ import type { Message } from '../../types'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import Messages from '../Messages/Messages'
 
-const socket = io('http://localhost:5000')
+const socket = io('https://locked-pkv8.onrender.com')
 
 interface MessageFromServer {
     data: {
