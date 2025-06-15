@@ -36,15 +36,48 @@
 
 .chat__main {
     background-color: var(--color-black);
-    height: 800px;
+    height: 720px;
 }
 
-.main__notification {
-    text-align: center;
-    padding-top: 25px;
-    font-weight: 300;
-    font-size: 16px;
+.chat__footer {
+    background-color: var(--color-grey-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-end-end-radius: 5px;
+    border-end-start-radius: 5px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.footer__btn {
+    background: linear-gradient(50deg, #4065aa 0%, #86b0d8 100%);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--color-black);
+    padding: 22px 55px;
+    border-radius: 5px;
+}
+
+.footer__emoji {
+    width: 65px;
+}
+
+.footer__input {
+    padding: 0px 40px;
+    font-weight: 400;
+    font-size: 21px;
+    width: 100%;
+    color: var(--color-white);
+}
+
+.footer__input::placeholder {
     color: #979797;
+    font-weight: 300;
 }
 
 @media (max-width: 768px) {
@@ -75,9 +108,27 @@
         height: 500px;
     }
 
-    .main__notification {
-        padding-top: 18px;
-        font-size: 15px;
+    .buttons {
+        column-gap: 15px;
+    }
+
+    .footer__btn {
+        font-size: 20px;
+        padding: 17px 45px;
+        border-radius: 5px;
+    }
+
+    .footer__emoji {
+        width: 95px;
+    }
+
+    .footer__input {
+        padding: 0px 20px;
+        font-size: 18px;
+    }
+
+    .footer__input::placeholder {
+        font-size: 18px;
     }
 }
 
@@ -106,11 +157,29 @@
 
     .chat__main {
         background-color: var(--color-black);
-        height: 500px;
+        height: 550px;
     }
 
-    .main__notification {
-        padding-top: 18px;
-        font-size: 14px;
+    .buttons {
+        column-gap: 13px;
+    }
+
+    .footer__btn {
+        font-size: 17px;
+        padding: 13px 25px;
+
+    }
+
+    .footer__emoji {
+        width: 115px;
+    }
+
+    .footer__input {
+        padding: 18px 15px;
+        font-size: 16px;
+    }
+
+    .footer__input::placeholder {
+        font-size: 16px;
     }
 }

@@ -3,11 +3,16 @@ export interface Form {
     room: string
 }
 
+export interface Message {
+    message: string
+}
+
 export interface User {
-    data: {
-        user: {
-            name: string
-        }
-        message: string
-    }
+    id: string
+    name: string
+}
+
+export interface MessageData {
+    message: string
+    user: User
 }

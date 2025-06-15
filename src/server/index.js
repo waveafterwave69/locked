@@ -3,7 +3,7 @@ import * as http from 'http'
 import { Server } from 'socket.io'
 import cors from 'cors'
 import router from './route.js'
-import addUser from './users.js'
+import { addUser, findUser } from './users.js'
 
 const app = express()
 const port = 5000
@@ -40,6 +40,14 @@ io.on('connection', (socket) => {
                 message: `${user.name} joined the chat`,
             },
         })
+    })
+
+    socket.on('sendMessage', ({ message, params }) => {
+        const user = findUser(params)
+
+        if (user) {
+            io.to(user.room).emit('message', { data: { user, message } })
+        }
     })
 
     io.on('disconnect', () => {

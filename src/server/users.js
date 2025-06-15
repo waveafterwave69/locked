@@ -1,14 +1,19 @@
 const users = []
 
-const addUser = (user) => {
+export const findUser = (user) => {
+    console.log('user', user)
     const userName = user.name.trim().toLowerCase()
     const userRoom = user.room.trim().toLowerCase()
 
-    const isExist = users.find(
+    return users.find(
         (u) =>
             u.name.trim().toLowerCase() === userName &&
             u.room.trim().toLowerCase() === userRoom
     )
+}
+
+export const addUser = (user) => {
+    const isExist = findUser(user)
 
     !isExist && users.push(user)
 
@@ -16,5 +21,3 @@ const addUser = (user) => {
 
     return { isExist: !!isExist, user: currUser }
 }
-
-export default addUser
